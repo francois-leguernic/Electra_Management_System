@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "station-energy-management-system-electra"
+version = "0.1.0"
+description = "Simple modelization of an Electra station implementing load-balancing across its chargers"
+authors = ["francois.le-guernic <fr.leguernic@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "src" }]
+
+[tool.poetry.dependencies]
+python = ">=3.13"
+fastapi = {extras = ["standard"], version = ">=0.116.2,<0.117.0"}
+pytest = ">=8.4.2,<9.0.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.9.0"
+isort = "^6.0.1"
+mypy = "^1.18.2"
+flake8 = "^7.3.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
