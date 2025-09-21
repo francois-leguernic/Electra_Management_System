@@ -2,6 +2,10 @@
 
 The goal of this project is to modelize an energy management system for a simplified Electra Station
 
+Explore the API endpoints using Swagger UI:
+
+![Swagger UI](swagger.JPG)
+
 ## Setup
 The project is a simple FAST API app in python, that can be run locally by manually installing the packages
 In order to manage python dependencies, I used Poetry.
@@ -68,14 +72,14 @@ For simplification, the hypothesises made here are :
 ## Load-balancing strategy
 Strategy to load balance the sessions: 
  - WHEN OPENING A SESSION
- The station is first consulted when a new session is requested. The total demand (based on the max power of all the sessions) is evaluated
- against the grid capacity of the station 
+ The station is first consulted when a new session is requested. The total demand (based on the max power of all the sessions) is evaluated against the grid capacity of the station. 
  From there , 2 possibilities :
-     (1) The total demand from the vehicles until now has exceeded the grid capacity. In these cases, the station decides which power to allocate to every session. From there : 
-        a. either there is a battery mechanism and the battery has a state of charge >= 20 %, then the session is totally handled by the battery and considered a "boost" session. It won't need energy flowing from the grid and every energy will come from the battery, as no hybrid session has been considered for simplicity.
+     (1) The total demand from the vehicles until now has exceeded the grid capacity. In these cases, the station decides which power to allocate to every session. 
+     From there : 
+        a. either there is a battery mechanism and the battery has a state of charge >= 20 % (threshold is hardcoded at the moment) and the session can be totally handled by the battery. In this case, the session is considered a "boost" session. It won't need energy flowing from the grid and energy will wholely come from the battery, as no hybrid session has been considered for simplicity.
         b. If there is no battery, the station decides by uniformizing the power along all the sessions of all the charger for fairness
-     (2) If the total requested capacity is inferior to the grid capacity, then it is the relevant charger which decides how much power 
-         to allocate (either uniformization as well, or granting everything)
+     (2) If the total requested capacity is inferior to the grid capacity, then it is the relevant charger which decides how much power can be granted, base on its capacity and active sessions
+     (either uniformization, or granting everything)
  - WHEN CLOSING A SESSION
      Here again, the state of the whole station after the closing of the session is evaluated.
      (1) if the remaining sessions represent a demand that still exceeds the grid capacity, a new uniformisation is realized

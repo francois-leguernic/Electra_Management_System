@@ -1,10 +1,12 @@
+"""Main app of the system, exposing endpoints."""
 from fastapi import FastAPI, Request
 import json
 import time
 from src.station_components.station import Station
 from src.station_components.statuses_models.models import StationStatus
 
-app = FastAPI()
+app = FastAPI(title="Electra station management system",
+              description="API for managing sessions, chargers and battery in a simplified Electra Station")
 with open("station_config.json", "r") as f:
     config_dict = json.load(f)
 
@@ -13,6 +15,7 @@ station = Station(config_dict)
 
 @app.middleware("http")
 async def measure_time(request: Request, call_next):
+    """Middleware that will print the time taken by each HTTP Call to be answered."""
     start_time = time.time()
     response = await call_next(request)
     end_time = time.time()
@@ -23,16 +26,19 @@ async def measure_time(request: Request, call_next):
 
 @app.get("/")
 async def root():
+    """Base endpoint, just to display the name of the station."""
     return {"message": f"Monitoring of Electra station {station.name}"}
 
 
 @app.get("/station/station_status", response_model=StationStatus)
 async def get_station_status():
+    """Displays the status of the whole station."""
     return station.get_status()
 
 
 @app.post("/start_session/")
 async def start_session(chargerId, connectorId, powerCapacity):
+    """Start a new session on a specified charger and connector, if possible."""
     charger = station.get_charger(chargerId)
     if not charger:
         return {"message": f"there is no charger with id {chargerId} in the station"}
@@ -51,6 +57,7 @@ async def start_session(chargerId, connectorId, powerCapacity):
 
 @app.post("/stop_session/")
 async def stop_session(chargerId, connectorId):
+    """Stop a session on a specified charger and connector, if possible."""
     charger = station.get_charger(chargerId)
     if not charger:
         return {"message": f"there is no charger with id {chargerId} in the station"}
