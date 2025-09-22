@@ -1,33 +1,38 @@
 # Station Energy Management System - Electra
 
-The goal of this project is to modelize an energy management system for a simplified Electra Station
+The goal of this project is to modelize an energy management system for a simplified Electra Station.
 
 Explore the API endpoints using Swagger UI:
 
 ![Swagger UI](swagger.JPG)
 
 ## Setup
-The project is a simple FAST API app in python, that can be run locally by manually installing the packages
-In order to manage python dependencies, I used Poetry.
-You can run the application either natively or using the provided Dockerfile.
+The project is a simple FAST API app in python, that can be run locally by manually installing the packages.
+In order to manage python dependencies, I used Poetry.  
+You can run the application either natively or using the provided Dockerfile.  
 
 ### Local setup
 In order to run natively : 
 
 To launch Poetry and install dependencies : 
 - install Poetry with the following bash command : 
-   `(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -`
-- run : `poetry install --no-root`
-
+```bash
+(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -
+poetry install --no-root
+```
 (You may need to add poetry to add Poetry to the Path of your machine on Windows to run poetry commands.)
 
 To run the app, go into the root folder of the project and run : 
-`poetry run fastapi dev main.py`
+```bash
+poetry run fastapi dev main.py
+```
 
 ### Docker setup
 
-`docker build -t station-energy-management-system .`
-`docker run --rm -it -p 8000:8000 station-energy-management-system`
+```bash
+docker build -t station-energy-management-system .
+docker run --rm -it -p 8000:8000 station-energy-management-system
+```
 
 You can then go to http://localhost:8000/docs to see the Swagger UI of the service and play with 
 the endpoints
@@ -35,8 +40,10 @@ the endpoints
 ### Unit tests 
 
 To run the unit tests , you can run: 
-`poetry install`
-`poetry run pytest`
+```bash 
+poetry install
+poetry run pytest
+```
 
 ## Project structure
 The project is organized with the following structure : 
